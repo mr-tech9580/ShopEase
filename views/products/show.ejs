@@ -1,0 +1,318 @@
+<% layout('layouts/boilerplate') %>
+
+<%- include('../partials/navbar') %>
+
+<%- include('../partials/flash') %>
+
+<section class="luxury-product-page">
+
+    <div class="container">
+
+        <div class="luxury-product-card">
+
+            <div class="row align-items-center g-5">
+
+                <!-- LEFT SIDE -->
+
+                <div class="col-lg-6">
+
+                    <div class="product-image-box">
+
+                        <img
+                            src="<%= foundproduct.img %>"
+                            alt="<%= foundproduct.name %>"
+                            class="product-main-image">
+
+                    </div>
+
+                </div>
+
+                <!-- RIGHT SIDE -->
+
+                <div class="col-lg-6">
+
+                    <span class="product-label">
+
+                        ✦ Luxury Collection
+
+                    </span>
+
+                    <h1 class="product-title">
+
+                        <%= foundproduct.name %>
+
+                    </h1>
+
+                    <div class="product-price">
+
+                        ₹ <%= foundproduct.price %>
+
+                    </div>
+
+                    <p class="product-description">
+
+                        <%= foundproduct.desc %>
+
+                    </p>
+
+                    <div class="product-highlights">
+
+                        <div>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Premium Leather
+
+                        </div>
+
+                        <div>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Luxury Finish
+
+                        </div>
+
+                        <div>
+
+                            <i class="fa-solid fa-circle-check"></i>
+
+                            Fast Delivery
+
+                        </div>
+
+                    </div>
+
+                    <div class="product-buttons mt-4">
+
+                        <% if(currentUser && currentUser.role==='seller'){ %>
+
+                            <a
+                                href="/products/<%= foundproduct._id %>/edit"
+                                class="btn hero-secondary">
+
+                                Edit Product
+
+                            </a>
+
+                        <% } %>
+
+                        <a
+                            href="#"
+                            class="btn hero-secondary">
+
+                            Buy Now
+
+                        </a>
+
+                        <form
+                            action="/user/<%= foundproduct._id %>/add"
+                            method="POST">
+
+                            <button
+                                class="btn hero-primary">
+
+                                Add To Cart
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- REVIEW SECTION -->
+
+        <section class="review-wrapper mt-5">
+
+            <div class="row">
+
+                <!-- REVIEW FORM -->
+
+                <div class="col-lg-6">
+
+                    <div class="review-form-card">
+
+                        <h2>
+
+                            Write a Review
+
+                        </h2>
+
+                        <p>
+
+                            Tell other customers about your experience.
+
+                        </p>
+
+                        <form
+                            action="/products/<%= foundproduct._id %>/review"
+                            method="POST">
+
+                            <fieldset class="starability-basic mb-4">
+
+                                <input
+                                    type="radio"
+                                    id="no-rate"
+                                    class="input-no-rate"
+                                    name="rating"
+                                    value="0"
+                                    checked
+                                    aria-label="No rating."/>
+
+                                <input type="radio" id="first-rate1" name="rating" value="1"/>
+                                <label for="first-rate1">1 star</label>
+
+                                <input type="radio" id="first-rate2" name="rating" value="2"/>
+                                <label for="first-rate2">2 stars</label>
+
+                                <input type="radio" id="first-rate3" name="rating" value="3"/>
+                                <label for="first-rate3">3 stars</label>
+
+                                <input type="radio" id="first-rate4" name="rating" value="4"/>
+                                <label for="first-rate4">4 stars</label>
+
+                                <input type="radio" id="first-rate5" name="rating" value="5"/>
+                                <label for="first-rate5">5 stars</label>
+
+                            </fieldset>
+
+                            <div class="mb-4">
+
+                                <textarea
+                                    class="form-control"
+                                    rows="6"
+                                    name="comment"
+                                    placeholder="Write your review..."></textarea>
+
+                            </div>
+
+                            <button
+                                class="btn hero-primary">
+
+                                Submit Review
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <!-- REVIEWS START -->
+
+                <div class="col-lg-6">
+
+                    <h2 class="mb-4">
+
+                        Customer Reviews
+
+                    </h2>
+                                        <% if(foundproduct.reviews.length === 0){ %>
+
+                        <div class="review-card text-center">
+
+                            <i class="fa-regular fa-comment-dots review-empty-icon"></i>
+
+                            <h4>
+
+                                No Reviews Yet
+
+                            </h4>
+
+                            <p class="text-muted">
+
+                                Be the first customer to share your
+                                experience with this premium bag.
+
+                            </p>
+
+                        </div>
+
+                    <% } else { %>
+
+                        <% foundproduct.reviews.forEach(review=>{ %>
+
+                            <div class="review-card">
+
+                                <div class="review-header">
+
+                                    <div>
+
+                                        <h5>
+
+                                            Verified Buyer
+
+                                        </h5>
+
+                                        <small>
+
+                                            ShopEase Customer
+
+                                        </small>
+
+                                    </div>
+
+                                    <span
+                                        class="starability-result"
+                                        data-rating="<%= review.rating %>">
+
+                                        Rated:
+                                        <%= review.rating %>
+                                        Stars
+
+                                    </span>
+
+                                </div>
+
+                                <p class="review-text">
+
+                                    <%= review.comment %>
+
+                                </p>
+
+                                <% if(review.createdAt){ %>
+
+                                    <small class="review-date">
+
+                                        <i class="fa-regular fa-calendar"></i>
+
+                                        <%= review.createdAt.toDateString() %>
+
+                                    </small>
+
+                                <% } %>
+
+                                <div class="mt-3">
+
+                                    <a
+                                        href="#"
+                                        class="btn btn-outline-danger btn-sm">
+
+                                        Delete Review
+
+                                    </a>
+
+                                </div>
+
+                            </div>
+
+                        <% }) %>
+
+                    <% } %>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </div>
+
+</section>

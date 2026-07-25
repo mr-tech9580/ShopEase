@@ -1,0 +1,156 @@
+<% layout('layouts/boilerplate') %>
+
+<%- include('../partials/navbar') %>
+
+<%- include('../partials/flash') %>
+
+<section class="luxury-form-section">
+
+    <div class="container">
+
+        <div class="luxury-form-card">
+
+            <div class="text-center mb-5">
+
+                <span class="section-tag">
+
+                    ✦ Seller Panel
+
+                </span>
+
+                <h1 class="luxury-title">
+
+                    Edit Luxury Bag
+
+                </h1>
+
+                <p class="text-muted">
+
+                    Update your luxury collection with the latest information.
+
+                </p>
+
+            </div>
+
+            <form
+                action="/products/<%= foundproduct._id %>?_method=PATCH"
+                method="POST"
+                class="needs-validation"
+                novalidate>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Product Name
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="name"
+                        name="name"
+                        value="<%= foundproduct.name %>"
+                        required>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Price
+
+                    </label>
+
+                    <input
+                        type="number"
+                        class="form-control"
+                        id="price"
+                        name="price"
+                        value="<%= foundproduct.price %>"
+                        step="0.01"
+                        required>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Description
+
+                    </label>
+
+                    <textarea
+                        class="form-control"
+                        id="description"
+                        name="desc"
+                        rows="6"><%= foundproduct.desc %></textarea>
+
+                </div>
+
+                <div class="mb-4">
+
+                    <label class="form-label">
+
+                        Image URL
+
+                    </label>
+
+                    <input
+                        type="text"
+                        class="form-control"
+                        id="img"
+                        name="img"
+                        value="<%= foundproduct.img %>"
+                        required>
+
+                </div>
+
+                <button
+                    type="submit"
+                    class="btn hero-primary w-100">
+
+                    Save Changes
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<script>
+
+(() => {
+
+'use strict'
+
+const forms=document.querySelectorAll('.needs-validation')
+
+Array.from(forms).forEach(form=>{
+
+form.addEventListener('submit',event=>{
+
+if(!form.checkValidity()){
+
+event.preventDefault()
+
+event.stopPropagation()
+
+}
+
+form.classList.add('was-validated')
+
+},false)
+
+})
+
+})()
+
+</script>

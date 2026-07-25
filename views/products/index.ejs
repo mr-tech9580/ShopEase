@@ -1,0 +1,448 @@
+<% layout('layouts/boilerplate') %>
+
+<%- include('../partials/navbar') %>
+
+<%- include('../partials/flash') %>
+
+<!-- HERO SECTION-->
+
+<section class="hero-banner">
+
+    <div class="hero-overlay"></div>
+
+    <div class="container">
+
+        <div class="hero-content">
+
+            <span class="hero-tag">
+
+                ✦ PREMIUM COLLECTION
+
+            </span>
+
+            <h1>
+
+                Elegance
+                <br>
+                You Carry.
+
+            </h1>
+
+            <p>
+
+                Discover premium handbags crafted with timeless
+                elegance, luxurious materials and exceptional
+                craftsmanship.
+
+            </p>
+
+            <div class="hero-buttons">
+
+                <a
+                    href="#products"
+                    class="btn hero-primary">
+
+                    Shop Collection
+
+                </a>
+
+                <a
+                    href="#products"
+                    class="btn hero-secondary">
+
+                    Explore
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- PRODUCTS-->
+
+<section
+    id="products"
+    class="products-section">
+
+    <div class="container">
+
+        <div class="section-heading text-center">
+
+            <span class="section-tag">
+
+                ShopEase Collection
+
+            </span>
+
+            <h2>
+
+                Luxury Bags
+                <br>
+
+                Crafted For You
+
+            </h2>
+
+            <p>
+
+                Timeless handbags designed for modern elegance.
+
+            </p>
+
+        </div>
+
+        <div class="row g-5">
+
+        <% for(let item of products){ %>
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="product-card">
+
+                    <div class="product-image">
+
+                        <img
+                            src="<%= item.img %>"
+                            alt="<%= item.name %>">
+
+                        <!-- <span class="product-badge"></span> -->
+
+                    </div>
+
+                    <div class="product-content">
+
+                        <span class="product-category">
+
+                            Premium Collection
+
+                        </span>
+                        <span class="btn like-btn" product-id="<%= item._id %>">
+                            <% if(currentUser && currentUser.wishList && currentUser.wishList.includes(item._id)){ %>
+                                <i class="fas fa-heart"></i>
+                            <% } else { %>
+                                <i class="far fa-heart"></i>
+                            <% } %>
+                        </span>
+
+                        <h3>
+
+                            <%= item.name %>
+
+                        </h3>
+
+                        <div class="price">
+
+                            ₹ <%= item.price %>
+
+                        </div>
+
+                        <p>
+
+                            <%= item.description %>
+
+                        </p>
+
+                        <div class="product-buttons">
+
+                            <a
+                                href="/products/<%= item._id %>"
+                                class="btn hero-primary">
+
+                                View Details
+
+                            </a>
+
+                            <% if(currentUser && currentUser.role==='seller'){ %>
+
+                                <form
+                                    action="/products/<%= item._id %>?_method=DELETE"
+                                    method="POST"
+                                    class="d-inline">
+
+                                    <button
+                                        class="btn btn-outline-danger">
+
+                                        Delete
+
+                                    </button>
+
+                                </form>
+
+                            <% } %>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        <% } %>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--LUXURY STORY SECTION-->
+
+<section class="luxury-story">
+
+    <div class="container">
+
+        <div class="row align-items-center">
+
+            <div class="col-lg-6">
+
+                <img
+                    src="/images/banner-bag.png"
+                    class="banner-image"
+                    alt="Luxury Bag">
+
+            </div>
+
+            <div class="col-lg-6">
+
+                <span class="section-tag">
+
+                    OUR STORY
+
+                </span>
+
+                <h2>
+
+                    Crafted For
+                    Modern Luxury
+
+                </h2>
+
+                <p>
+
+                    Every handbag is thoughtfully designed
+                    with premium materials, timeless
+                    craftsmanship and refined elegance.
+
+                </p>
+
+                <a
+                    href="#products"
+                    class="btn hero-primary">
+
+                    Explore Collection
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- FEATURES-->
+
+<section class="features-section">
+
+    <div class="container">
+
+        <div class="section-heading text-center">
+
+            <span class="section-tag">
+
+                WHY SHOPEASE
+
+            </span>
+
+            <h2>
+
+                Luxury Shopping Experience
+
+            </h2>
+
+        </div>
+
+        <div class="row g-4">
+
+            <div class="col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="fa-solid fa-gem"></i>
+
+                    </div>
+
+                    <h3>
+
+                        Premium Quality
+
+                    </h3>
+
+                    <p>
+
+                        Every handbag is carefully selected
+                        with premium craftsmanship and elegant
+                        finishing.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="fa-solid fa-truck-fast"></i>
+
+                    </div>
+
+                    <h3>
+
+                        Fast Delivery
+
+                    </h3>
+
+                    <p>
+
+                        Safe and secure delivery with
+                        premium packaging across India.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <div class="col-lg-4">
+
+                <div class="feature-card">
+
+                    <div class="feature-icon">
+
+                        <i class="fa-solid fa-shield-heart"></i>
+
+                    </div>
+
+                    <h3>
+
+                        Trusted Brand
+
+                    </h3>
+
+                    <p>
+
+                        Thousands of customers trust
+                        ShopEase for premium handbags.
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!--NEWSLETTER -->
+
+<section class="newsletter-section">
+
+    <div class="container">
+
+        <div class="newsletter-box">
+
+            <span class="section-tag">
+
+                JOIN US
+
+            </span>
+
+            <h2>
+
+                Stay Updated
+
+            </h2>
+
+            <p>
+
+                Get updates about our latest luxury
+                handbag collections and exclusive offers.
+
+            </p>
+
+            <form class="newsletter-form">
+
+                <input
+                    type="email"
+                    placeholder="Enter your email">
+
+                <button
+                    class="btn hero-primary"
+                    type="button">
+
+                    Subscribe
+
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="cta-section">
+
+    <div class="container">
+
+        <div class="cta-box">
+
+            <h2>
+
+                Luxury You Can Carry Everyday
+
+            </h2>
+
+            <p>
+
+                Discover handcrafted handbags designed
+                with elegance, confidence and timeless
+                beauty.
+
+            </p>
+
+            <a
+                href="#products"
+                class="btn hero-primary">
+
+                Shop Now
+
+            </a>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+
+<script src="/js/common.js"></script>

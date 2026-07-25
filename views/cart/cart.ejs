@@ -1,0 +1,123 @@
+<% layout('layouts/boilerplate') %>
+
+<%- include('../partials/navbar') %>
+
+<%- include('../partials/flash') %>
+
+<section class="cart-page">
+
+    <div class="container">
+
+        <div class="section-heading text-center">
+
+            <span class="section-tag">
+
+                Shopping Bag
+
+            </span>
+
+            <h2>
+
+                Your Luxury Collection
+
+            </h2>
+
+            <p>
+
+                Review your selected handbags before proceeding to checkout.
+
+            </p>
+
+        </div>
+
+        <% if(user.cart.length === 0){ %>
+
+            <div class="empty-cart">
+<!-- 
+                <img
+                    src="/images/empty-cart.png"
+                    alt="Empty Cart"
+                    class="empty-cart-image"> -->
+
+                <h3>
+
+                    Your Shopping Bag is Empty
+
+                </h3>
+
+                <p>
+
+                    Explore our luxury collection and discover timeless handbags.
+
+                </p>
+
+                <a
+                    href="/products"
+                    class="btn hero-primary">
+
+                    Explore Collection
+
+                </a>
+
+            </div>
+
+        <% } else { %>
+
+            <% user.cart.forEach(item=>{ %>
+
+                <div class="cart-item">
+
+                    <div class="row align-items-center">
+
+                        <div class="col-md-3">
+
+                            <img
+                                src="<%= item.img %>"
+                                alt="<%= item.name %>"
+                                class="cart-image">
+
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <span class="cart-badge">
+
+                                Premium Collection
+
+                            </span>
+
+                            <h3>
+
+                                <%= item.name %>
+
+                            </h3>
+
+                            <p>
+
+                                Elegantly crafted with premium materials for everyday sophistication.
+
+                            </p>
+
+                        </div>
+
+                        <div class="col-md-3 text-md-end">
+
+                            <div class="cart-price">
+
+                                ₹ <%= item.price %>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            <% }) %>
+
+        <% } %>
+
+    </div>
+
+</section>

@@ -1,0 +1,134 @@
+<nav class="navbar navbar-expand-lg luxury-navbar">
+
+    <div class="container">
+
+        <!-- =========================
+                LOGO
+        ========================== -->
+
+        <a class="navbar-brand d-flex align-items-center" href="/products">
+
+            <img
+                src="/images/logo.png"
+                alt="ShopEase"
+                class="navbar-logo">
+
+        </a>
+
+        <!-- =========================
+             MOBILE TOGGLER
+        ========================== -->
+
+        <button
+            class="navbar-toggler shadow-none border-0"
+            type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#navbarMenu"
+            aria-controls="navbarMenu"
+            aria-expanded="false">
+
+            <i class="fa-solid fa-bars"></i>
+
+        </button>
+
+        <!-- =========================
+               NAV ITEMS
+        ========================== -->
+
+        <div
+            class="collapse navbar-collapse"
+            id="navbarMenu">
+
+            <ul class="navbar-nav mx-auto align-items-lg-center">
+
+                <li class="nav-item">
+
+                    <a
+                        href="/products"
+                        class="nav-link active">
+
+                        Home
+
+                    </a>
+
+                </li>
+
+                <% if(currentUser && currentUser.role==='seller'){ %>
+
+                <li class="nav-item">
+
+                    <a
+                        href="/product/new"
+                        class="nav-link">
+
+                        Add Product
+
+                    </a>
+
+                </li>
+
+                <% } %>
+
+            </ul>
+
+            <!-- =========================
+                  RIGHT SIDE
+            ========================== -->
+
+            <div class="nav-actions">
+
+                <% if(!currentUser){ %>
+
+                    <a
+                        href="/login"
+                        class="btn nav-login">
+
+                        Login
+
+                    </a>
+
+                <% } else { %>
+
+                    <span class="welcome-user">
+
+                        Hello,
+
+                        <strong>
+
+                            <%= currentUser.username %>
+
+                        </strong>
+
+                    </span>
+
+                    <a
+                        href="/user/cart"
+                        class="cart-btn">
+
+                        <i class="fa-solid fa-bag-shopping"></i>
+
+                        <span class="cart-count">
+
+                            <%= currentUser.cart.length %>
+
+                        </span>
+
+                    </a>
+
+                    <a
+                        href="/logout"
+                        class="btn nav-logout">
+
+                        Logout
+
+                    </a>
+
+                <% } %>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</nav>
