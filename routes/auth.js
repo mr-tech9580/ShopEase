@@ -1,91 +1,75 @@
-const express=require('express');
-const User = require('../models/User');
-const router=express.Router();  //mini instance
-const passport=require('passport');
+const express = require("express");
+const router = express.Router();
+const passport = require("passport");
+const User = require("../models/User");
 
+// =========================
+// Show Signup Page
+// =========================
+router.get("/signup", (req, res) => {
+    res.render("auth/signup");
+});
 
-// landing
+// =========================
+// Register User
+// =========================
+router.post("/signup", async (req, res, next) => {
+    try {
+        const { email, username, password, role } = req.body;
 
-router.get('/',(req,res)=>{
-    res.render('auth/login');
-})
+        const user = new User({
+            email,
+            username,
+            role,
+        });
 
+        const registeredUser = await User.register(user, password);
 
-//show the form of signup
+        req.login(registeredUser, (err) => {
+            if (err) return next(err);
 
-router.get('/register',(req,res)=>{
-    res.render('auth/signup');
-})
+            req.flash("success", "Registration successful! Welcome to ShopEase.");
+            res.redirect("/products");
+        });
 
-
-// actually want to register a user in db
-
-router.post('/register',async(req,res)=>{
-    try{
-        let {email,password,username,role}=req.body;
-        const user=new User({email,username,role});
-        const newuser=await User.register(user,password);
-        // res.redirect('/login');
-        req.login(newuser,function(err){
-            if(err){
-                return next(err);
-            }
-            req.flash('success','welcome ,you are registered successfully');
-            res.redirect('/products');
-        })
-
+    } catch (err) {
+        req.flash("error", err.message);
+        res.redirect("/signup");
     }
-    catch(e){
-        req.flash('error',e.message);
-        res.redirect('/signup');
-    }
-})
+});
 
-//to get a login form
+// =========================
+// Show Login Page
+// =========================
+router.get("/login", (req, res) => {
+    res.render("auth/login");
+});
 
-router.get('/login',(req,res)=>{
-    res.render('auth/login');
-})
-
-
-
-// to actually login via the db
-
-router.post('/login',
-    passport.authenticate('local',
-    {
-        failureRedirect: '/login', 
-        failureMessage:true
+// =========================
+// Login User
+// =========================
+router.post(
+    "/login",
+    passport.authenticate("local", {
+        failureRedirect: "/login",
+        failureFlash: true,
     }),
-    (req,res)=>{
-        req.flash('success','welcome back')
-        res.redirect('/products');
-});
+    (req, res) => {
+        req.flash("success", "Welcome back!");
+        res.redirect("/products");
+    }
+);
 
+// =========================
+// Logout User
+// =========================
+router.get("/logout", (req, res, next) => {
+    req.logout((err) => {
+        if (err) return next(err);
 
-
-
-
-// logout
-router.get('/logout', (req, res, next) => {
-
-    req.logout(function(err) {
-
-        if (err) {
-            return next(err);
-        }
-
-        req.flash('success', 'Goodbye');
-
-        res.redirect('/login');
-
+        req.flash("success", "Logged out successfully.");
+        res.redirect("/login");
     });
-
 });
 
-
-
-
-module.exports=router;
-
-
+module.exports = router;
