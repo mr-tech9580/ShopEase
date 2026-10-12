@@ -1,8 +1,10 @@
+require('dotenv').config();
+
 const express=require('express');
 const app=express();
 const path=require('path');
 const mongoose = require('mongoose');
-const seedDB=require('./seed');
+const seedDB = require('./models/seed');
 const ejsmate=require('ejs-mate');
 const methodOverride=require('method-override');
 const session=require('express-session');
@@ -12,7 +14,6 @@ const LocalStrategy=require('passport-local');
 const User=require('./models/User');
 
 
- 
 
 
 const productsroute=require('./routes/product');
@@ -25,20 +26,18 @@ const productapi=require('./routes/api/productapi');
 
 app.use(methodOverride('_method'));   //to override the method of form from post to put/patch or delete
 
-
-mongoose.connect('mongodb+srv://meghaofficial9580_db_user:SIZzVXfHvO4ssFNg@cluster0.pla1znj.mongodb.net/shop')
-.then(()=>{
+mongoose.connect(process.env.MONGODB_URI)
+.then(() => {
     console.log('DB Connected successfully');
 })
-.catch((err)=>{
-    console.error('Error connecting DB');
-    console.log(err);
+.catch((err) => {
+    console.error('Error connecting DB:', err.message);
 });
 
 // seedDB();
 
 let configsession={
-    secret:'keyboard cat',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized:true,
     cookie:{
@@ -50,9 +49,13 @@ let configsession={
 
 
 app.engine('ejs',ejsmate);
-app.set('view engine','ejs');
-app.set('views',path.join(__dirname,'views'));    //views folder
-app.use(express.static(path.join(__dirname,'public')));   //public folder
+
+app.set('view engine', 'ejs');
+
+app.set('views', path.join(__dirname, '../frontend/views'));   //views folder
+
+app.use(express.static(path.join(__dirname, '../frontend/public')));  //public folder
+ 
 app.use(express.urlencoded({extended:true}));   //to parse the form data
 app.use(session(configsession));
 app.use(flash());
@@ -97,10 +100,12 @@ app.use(cartroutes);
 app.use(productapi);
 
 
+const PORT = process.env.PORT || 8080;
 
-app.listen(8080,()=>{
-    console.log('Server is running on port 8080');
-})
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
+
 
 
 
